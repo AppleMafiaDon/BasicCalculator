@@ -18,10 +18,12 @@ namespace Calculator
 		{
             Button button = (Button)sender;
 			string pressed = button.Text;
-
-            this.equation.Text += pressed + " ";
+            if (pressed == "Space")
+                pressed = " ";
+            this.equation.Text += pressed;
 		}
 
+        //The action command when hitting C on the Calculator
 		void OnClear(object sender, EventArgs e)
 		{
             this.equation.Text = "";
@@ -31,18 +33,26 @@ namespace Calculator
         void OnCalculate(object sender, EventArgs e)
         {
             string eq = this.equation.Text;
-            if (Regex.Matches(eq, @"[a-zA-Z]").Count > 1)
+            if (Regex.Matches(eq, @"[a-zA-Z]").Count > 1) //If there are any letters in the string it is not a math equation
             { 
                 this.resultText.Text = "Error: Invalid Equation; Letters are present";
                 return;
             }
-            else if(Regex.Matches(eq, @"(").Count != Regex.Matches(eq, @")").Count)
+            int counter = 0;
+            for (int i = 0; i < eq.Length; i ++)//Check to make sure the same number of opening as closing parentheses
+            {
+                if (eq[i] == '(')
+                    counter++;
+                else if (eq[i] == ')')
+                    counter--;
+            }
+            if(counter != 0) //If the counter != 0 then we know the number of closing or opening parantheses is off
             {
                 this.resultText.Text = "Error: Invalid Equation; Wrong number of parenthesis";
                 return;
             }
 
-            var result = SimpleCalculator.Calculate(this.equation.Text);
+            double result = SimpleCalculator.Calculate(eq);
             if (result == -1)
             {
                 this.resultText.Text = "Error: Invalid Equation; Wrong number of operators or arguments";
