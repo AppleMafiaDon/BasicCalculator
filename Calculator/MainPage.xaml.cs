@@ -8,6 +8,7 @@ namespace Calculator
 {    
     public partial class MainPage : ContentPage
     {
+        protected SimpleCalculator calculator;
         public MainPage ()
         {
             InitializeComponent ();
@@ -51,8 +52,8 @@ namespace Calculator
                 this.resultText.Text = "Error: Invalid Equation; Wrong number of parenthesis";
                 return;
             }
-
-            double result = SimpleCalculator.Calculate(eq);
+            calculator = new SimpleCalculator();
+            double result = calculator.Calculate(eq);
             if (result == -1)
             {
                 this.resultText.Text = "Error: Invalid Equation; Wrong number of operators or arguments";

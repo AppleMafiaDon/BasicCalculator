@@ -78,10 +78,10 @@
                BackgroundColor="#808080" TextColor="Black"
                FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
 
-       <Button Text="÷" Grid.Row="2" Grid.Column="3"
+       <Button Text="/" Grid.Row="2" Grid.Column="3"
                 BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" TextColor="White"
                 FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
-       <Button Text="×" Grid.Row="3" Grid.Column="3"
+       <Button Text="*" Grid.Row="3" Grid.Column="3"
                 BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" TextColor="White"
                 FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
        <Button Text="-" Grid.Row="4" Grid.Column="3"
