@@ -1,0 +1,1 @@
+There is an APK file in the main folder of the project which, using the "adb push" command, you can move onto your phone. Once you have moved the apk onto your phones file system, you can select the apk and it will install the application. You may need to allow unknown sources to install applications. Once installed it should run.
