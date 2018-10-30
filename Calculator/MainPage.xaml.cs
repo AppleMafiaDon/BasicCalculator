@@ -8,18 +8,20 @@ namespace Calculator
 {    
     public partial class MainPage : ContentPage
     {
-        protected SimpleCalculator calculator;
+        //initializes the main page
         public MainPage ()
         {
             InitializeComponent ();
             OnClear(this, null);
         }
 
+        //Handles the case of a button being pressed
 		void OnSelectButton(object sender, EventArgs e)
 		{
             Button button = (Button)sender;
-			string pressed = button.Text;
-            if (pressed == "Space")
+			string pressed = button.Text; //get the text from the button
+            if (pressed == "Space") //If it's space change it to a space instead of explicitly stating space
+
                 pressed = " ";
             this.equation.Text += pressed;
 		}
@@ -31,6 +33,8 @@ namespace Calculator
             this.resultText.Text = "0";
 		}
 
+
+        //When we are ready to calculate the equation
         void OnCalculate(object sender, EventArgs e)
         {
             string eq = this.equation.Text;
@@ -52,8 +56,7 @@ namespace Calculator
                 this.resultText.Text = "Error: Invalid Equation; Wrong number of parenthesis";
                 return;
             }
-            calculator = new SimpleCalculator();
-            double result = calculator.Calculate(eq);
+            double result = SimpleCalculator.Calculate(eq);
             if (result == -1)
             {
                 this.resultText.Text = "Error: Invalid Equation; Wrong number of operators or arguments";

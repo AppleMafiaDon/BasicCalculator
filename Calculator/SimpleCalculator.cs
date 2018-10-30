@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Calculator
 {
-    public class SimpleCalculator
+    public static class SimpleCalculator
     {
-        public double Calculate(string input)
+        public static double Calculate(string input)
         {
             string value = ""; //empty storage to help build operands
             double result = 0; //stores the value once parsed from built value
@@ -44,60 +44,48 @@ namespace Calculator
 
                     switch (term)
                     {
-                        case ')':
+                        case ')': //if its a closing parentheses than we need to process out the next opening paren
                             bool parenClosed = false;
-                            while (!parenClosed)
+                            while (!parenClosed) //While we haven't fouind the next paren, going back
                             {
-                                char oper = operators.Pop();
+                                char oper = operators.Pop();//get the current operator to be processed
                                 if (operators.Count != 0 && oper != '(')
                                 {
-                                    while (precedence[operators.Peek()] > precedence[oper])
+                                    while (precedence[operators.Peek()] > precedence[oper]) //While there are higher precedence operators in the stack
                                     {
-                                        double skippedOperand = operands.Pop();
-                                        char higherOp = operators.Pop();
-                                        switch (higherOp)
-                                        {
-                                            case '*':
-                                                operands.Push(operands.Pop() * operands.Pop());
-                                                break;
-                                            case '/':
-                                                double divisor = operands.Pop();
-                                                operands.Push(operands.Pop() / divisor);
-                                                break;
-                                            case '-':
-                                                double subtractor = operands.Pop();
-                                                operands.Push(operands.Pop() - subtractor);
-                                                break;
-                                        }
-                                        operands.Push(skippedOperand);
-                                        if (operators.Count == 0)
+                                        if (operands.Count < 3) //if we wont have enough operands to perform a calculation return -1
+                                            return -1;
+                                        handleHigherOp(operands, operators); //handle them
+                                        if (operators.Count == 0) //if we have no more operators
                                             break;
                                     }
                                 }
-                                switch (oper)
+                                if (operands.Count < 2) //if we wont have enough operands to perform a calculation return -1
+                                    return -1;
+                                switch (oper) //Now we can process the current operator
                                 {
                                     case '*':
-                                        operands.Push(operands.Pop() * operands.Pop());
+                                        operands.Push(operands.Pop() * operands.Pop());//Multiply the next two operands popped and store it back on the stack
                                         break;
                                     case '/':
-                                        double divisor = operands.Pop();
-                                        operands.Push(operands.Pop() / divisor);
+                                        double divisor = operands.Pop(); //Get the divisor for the equation
+                                        operands.Push(operands.Pop() / divisor); //Divide the next operand by the divisor and stor it on the stack
                                         break;
                                     case '+':
-                                        operands.Push(operands.Pop() + operands.Pop());
+                                        operands.Push(operands.Pop() + operands.Pop()); //Add the next two operands and store it on the stack
                                         break;
                                     case '-':
-                                        double subtractor = operands.Pop();
-                                        operands.Push(operands.Pop() - subtractor);
+                                        double subtractor = operands.Pop(); //Get the subtractor
+                                        operands.Push(operands.Pop() - subtractor); //Store the subtracted value in the stack
                                         break;
                                     case '(':
                                         parenClosed = true;
                                         break;
                                 }
-                                }
+                            }
                             
                             break;
-                        case '*':
+                        case '*':                   //If it isn't a closing paren then just add the operator to the stack
                             operators.Push(term);
                             break;
                         case '/':
@@ -119,7 +107,7 @@ namespace Calculator
                     return -1;
                 }
             }
-            if (value != "")
+            if (value != "") //If there was a final double being built at the end oif the equation store it to operands
             {
                 if (double.TryParse(value, out result))
                 {
@@ -127,56 +115,67 @@ namespace Calculator
                 }
                 value = "";
             }
-            while (operators.Count > 0)
+            while (operators.Count > 0) //While there are still operators we need to process them
             {
                 char oper = operators.Pop();
                 if (operators.Count != 0)
                 {
-                    while (precedence[operators.Peek()] > precedence[oper])
+                    while (precedence[operators.Peek()] > precedence[oper]) //While there are higher precedence operators in the stack
                     {
-                        double skippedOperand = operands.Pop();
-                        char higherOp = operators.Pop();
-                        switch (higherOp)
-                        {
-                            case '*':
-                                operands.Push(operands.Pop() * operands.Pop());
-                                break;
-                            case '/':
-                                double divisor = operands.Pop();
-                                operands.Push(operands.Pop() / divisor);
-                                break;
-                            case '-':
-                                double subtractor = operands.Pop();
-                                operands.Push(operands.Pop() - subtractor);
-                                break;
-                        }
-                        operands.Push(skippedOperand);
-                        if (operators.Count == 0)
+                        if (operands.Count < 3) //if we wont have enough operands to perform a calculation return -1
+                            return -1;
+                        handleHigherOp(operands, operators); //handle them
+                        if (operators.Count == 0) //if we have no more operators
                             break;
                     }
                 }
+                if (operands.Count < 2) //if we wont have enough operands to perform a calculation return -1
+                    return -1;
                 switch (oper)
                 {
                     case '*':
-                        operands.Push(operands.Pop() * operands.Pop());
+                        operands.Push(operands.Pop() * operands.Pop());//Multiply the next two operands popped and store it back on the stack
                         break;
                     case '/':
-                        double divisor = operands.Pop();
-                        operands.Push(operands.Pop() / divisor);
+                        double divisor = operands.Pop(); //Get the divisor for the equation
+                        operands.Push(operands.Pop() / divisor); //Divide the next operand by the divisor and stor it on the stack
                         break;
                     case '+':
                         operands.Push(operands.Pop() + operands.Pop());
                         break;
                     case '-':
-                        double subtractor = operands.Pop();
-                        operands.Push(operands.Pop() - subtractor);
+                        double subtractor = operands.Pop(); //Get the subtractor
+                        operands.Push(operands.Pop() - subtractor); //Store the subtracted value in the stack
                         break;
                 }
             }
-            if (operands.Count != 1)
+            if (operands.Count != 1) //If we had too many operands, or too few operands
                 return -1;
 
             return operands.Pop();
+        }
+
+        //Private method which handles the generic higher operation processing
+        //Subtraction included because the ordering of the operands matters for subtraction versus addition
+        private static void handleHigherOp(Stack<double> operands, Stack<char> operators)
+        {
+            double skippedOperand = operands.Pop(); //Store the operand to be skipped
+            char higherOp = operators.Pop(); //clear the operator being used
+            switch (higherOp)
+            {
+                case '*':
+                    operands.Push(operands.Pop() * operands.Pop()); //Multiply the next two operands popped and store it back on the stack
+                    break;
+                case '/':
+                    double divisor = operands.Pop(); //Get the divisor for the equation
+                    operands.Push(operands.Pop() / divisor); //Divide the next operand by the divisor and stor it on the stack
+                    break;
+                case '-':
+                    double subtractor = operands.Pop(); //Get the subtractor
+                    operands.Push(operands.Pop() - subtractor); //Store the subtracted value in the stack
+                    break;
+            }
+            operands.Push(skippedOperand); //put the skipped operand back on the stack
         }
     }
 }
