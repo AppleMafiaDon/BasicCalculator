@@ -13,13 +13,15 @@
     <Grid Padding="5,0" RowSpacing="1" ColumnSpacing="1" BackgroundColor="Black">
 
        <Grid.RowDefinitions>
-         <RowDefinition Height="2*" />
-         <RowDefinition Height="*" />
-         <RowDefinition Height="*" />
-         <RowDefinition Height="*" />
-         <RowDefinition Height="*" />
-         <RowDefinition Height="*" />
-       </Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
        <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
@@ -28,61 +30,80 @@
           <ColumnDefinition Width="*" />
        </Grid.ColumnDefinitions>
 
-       <Label x:Name="resultText" FontSize="48" FontAttributes="Bold" BackgroundColor="Black" Text="0"
+        <Entry x:Name="equation" Grid.Row="0" FontSize="36"  BackgroundColor="Black" Text=""
+               TextColor="White" HorizontalTextAlignment="End"  Grid.ColumnSpan="4" Placeholder="(w/ Spaces between operator and operand)" PlaceholderColor="LightGray" 
+               Completed="OnCalculate"/>
+
+        <Label x:Name="resultText" FontSize="36" Grid.Row="1"  BackgroundColor="Black" Text="0"
               TextColor="White" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
               LineBreakMode="NoWrap" Grid.ColumnSpan="4" />
 
-       <Button Text="7" Grid.Row="1" Grid.Column="0"
+       <Button Text="7" Grid.Row="2" Grid.Column="0"
                BackgroundColor="White" TextColor="Black"
-               FontSize="36" BorderRadius="0" Clicked="OnSelectNumber" />
-       <Button Text="8" Grid.Row="1" Grid.Column="1"
+               FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
+       <Button Text="8" Grid.Row="2" Grid.Column="1"
                BackgroundColor="White" TextColor="Black"
-               FontSize="36" BorderRadius="0" Clicked="OnSelectNumber" />
-       <Button Text="9" Grid.Row="1" Grid.Column="2"
+               FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
+       <Button Text="9" Grid.Row="2" Grid.Column="2"
                BackgroundColor="White" TextColor="Black"
-               FontSize="36" BorderRadius="0" Clicked="OnSelectNumber" />
+               FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
 
-      <Button Text="4" Grid.Row="2" Grid.Column="0"
+      <Button Text="4" Grid.Row="3" Grid.Column="0"
                BackgroundColor="White" TextColor="Black"
-               FontSize="36" BorderRadius="0" Clicked="OnSelectNumber" />
-       <Button Text="5" Grid.Row="2" Grid.Column="1"
+               FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
+       <Button Text="5" Grid.Row="3" Grid.Column="1"
                BackgroundColor="White" TextColor="Black"
-               FontSize="36" BorderRadius="0" Clicked="OnSelectNumber" />
-       <Button Text="6" Grid.Row="2" Grid.Column="2"
+               FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
+       <Button Text="6" Grid.Row="3" Grid.Column="2"
                BackgroundColor="White" TextColor="Black"
-               FontSize="36" BorderRadius="0" Clicked="OnSelectNumber" />
+               FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
 
-      <Button Text="1" Grid.Row="3" Grid.Column="0"
+      <Button Text="1" Grid.Row="4" Grid.Column="0"
                BackgroundColor="White" TextColor="Black"
-               FontSize="36" BorderRadius="0" Clicked="OnSelectNumber" />
-       <Button Text="2" Grid.Row="3" Grid.Column="1"
+               FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
+       <Button Text="2" Grid.Row="4" Grid.Column="1"
                BackgroundColor="White" TextColor="Black"
-               FontSize="36" BorderRadius="0" Clicked="OnSelectNumber" />
-       <Button Text="3" Grid.Row="3" Grid.Column="2"
+               FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
+       <Button Text="3" Grid.Row="4" Grid.Column="2"
                BackgroundColor="White" TextColor="Black"
-               FontSize="36" BorderRadius="0" Clicked="OnSelectNumber" />
-       <Button Text="0" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"
-               BackgroundColor="White" TextColor="Black"
-               FontSize="36" BorderRadius="0" Clicked="OnSelectNumber" />
+               FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
 
-       <Button Text="÷" Grid.Row="1" Grid.Column="3"
-                BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" TextColor="White"
-                FontSize="36" BorderRadius="0" Clicked="OnSelectOperator" />
-       <Button Text="×" Grid.Row="2" Grid.Column="3"
-                BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" TextColor="White"
-                FontSize="36" BorderRadius="0" Clicked="OnSelectOperator" />
-       <Button Text="-" Grid.Row="3" Grid.Column="3"
-                BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" TextColor="White"
-                FontSize="36" BorderRadius="0" Clicked="OnSelectOperator" />
-       <Button Text="+" Grid.Row="4" Grid.Column="3"
-                BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" TextColor="White"
-                FontSize="36" BorderRadius="0" Clicked="OnSelectOperator" />
+        <Button Text="(" Grid.Row="5" Grid.Column="0"
+               BackgroundColor="#808080" TextColor="Black"
+               FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
+        <Button Text="0" Grid.Row="5" Grid.Column="1"
+               BackgroundColor="White" TextColor="Black"
+               FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
+        <Button Text=")" Grid.Row="5" Grid.Column="2"
+               BackgroundColor="#808080" TextColor="Black"
+               FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
 
-       <Button Text="C" Grid.Row="5" Grid.Column="0"
+       <Button Text="/" Grid.Row="2" Grid.Column="3"
+                BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" TextColor="White"
+                FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
+       <Button Text="*" Grid.Row="3" Grid.Column="3"
+                BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" TextColor="White"
+                FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
+       <Button Text="-" Grid.Row="4" Grid.Column="3"
+                BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" TextColor="White"
+                FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
+       <Button Text="+" Grid.Row="5" Grid.Column="3"
+                BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" TextColor="White"
+                FontSize="24" BorderRadius="0" Clicked="OnSelectButton" />
+
+        <Button Text="." Grid.Row="6" Grid.Column="0"
+                BackgroundColor="#808080" TextColor="White"
+                FontSize="36" BorderRadius="0" Clicked="OnSelectButton" />
+
+        <Button Text="Space" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3"
+                BackgroundColor="#808080" TextColor="White"
+                FontSize="36" BorderRadius="0" Clicked="OnSelectButton" />
+
+        <Button Text="C" Grid.Row="7" Grid.Column="0"
                 BackgroundColor="#808080" TextColor="White"
                 FontSize="36" BorderRadius="0" Clicked="OnClear" />
 
-       <Button Text="=" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3"
+       <Button Text="=" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3"
                 BackgroundColor="{x:Static local:SharedResources.OpButtonBkColor}" TextColor="White"
                 FontSize="36" BorderRadius="0" Clicked="OnCalculate" />
 

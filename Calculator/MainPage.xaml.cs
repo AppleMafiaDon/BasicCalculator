@@ -1,71 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
+using System.Text.RegularExpressions;
+
 
 namespace Calculator
 {    
     public partial class MainPage : ContentPage
-    {    
-		int currentState = 1;
-		string mathOperator;
-		double firstNumber, secondNumber;
-
+    {
+        //initializes the main page
         public MainPage ()
         {
             InitializeComponent ();
             OnClear(this, null);
         }
 
-		void OnSelectNumber(object sender, EventArgs e)
+        //Handles the case of a button being pressed
+		void OnSelectButton(object sender, EventArgs e)
 		{
-			Button button = (Button)sender;
-			string pressed = button.Text;
+            Button button = (Button)sender;
+			string pressed = button.Text; //get the text from the button
+            if (pressed == "Space") //If it's space change it to a space instead of explicitly stating space
 
-			if (this.resultText.Text == "0" || currentState < 0) {
-				this.resultText.Text = "";
-				if (currentState < 0)
-					currentState *= -1;
-			}
-
-			this.resultText.Text += pressed;
-
-			double number;
-			if (double.TryParse(this.resultText.Text, out number)) {
-				this.resultText.Text = number.ToString("N0");
-				if (currentState == 1) {
-					firstNumber = number;
-				} else {
-					secondNumber = number;
-				}
-			}
+                pressed = " ";
+            this.equation.Text += pressed;
 		}
 
-		void OnSelectOperator(object sender, EventArgs e)
-		{
-			currentState = -2;
-			Button button = (Button)sender;
-			string pressed = button.Text;
-			mathOperator = pressed;
-		}
-
+        //The action command when hitting C on the Calculator
 		void OnClear(object sender, EventArgs e)
 		{
-			firstNumber = 0;
-			secondNumber = 0;
-			currentState = 1;
-			this.resultText.Text = "0";
+            this.equation.Text = "";
+            this.resultText.Text = "0";
 		}
 
-		void OnCalculate(object sender, EventArgs e)
-		{
-			if (currentState == 2)
-            {
-                var result = SimpleCalculator.Calculate(firstNumber, secondNumber, mathOperator);
 
-                this.resultText.Text = result.ToString();
-                firstNumber = result;
-                currentState = -1;
-			}
+        //When we are ready to calculate the equation
+        void OnCalculate(object sender, EventArgs e)
+        {
+            string eq = this.equation.Text;
+            if (Regex.Matches(eq, @"[a-zA-Z]").Count > 1) //If there are any letters in the string it is not a math equation
+            { 
+                this.resultText.Text = "Error: Invalid Equation; Letters are present";
+                return;
+            }
+            int counter = 0;
+            for (int i = 0; i < eq.Length; i ++)//Check to make sure the same number of opening as closing parentheses
+            {
+                if (eq[i] == '(')
+                    counter++;
+                else if (eq[i] == ')')
+                    counter--;
+            }
+            if(counter != 0) //If the counter != 0 then we know the number of closing or opening parantheses is off
+            {
+                this.resultText.Text = "Error: Invalid Equation; Wrong number of parenthesis";
+                return;
+            }
+            double result = SimpleCalculator.Calculate(eq);
+            if (result == -1)
+            {
+                this.resultText.Text = "Error: Invalid Equation; Wrong number of operators or arguments";
+                return;
+            }
+            this.resultText.Text = result.ToString();
 		}
 	}
 }
